@@ -1,0 +1,45 @@
+登录模块
+    登录的过程：
+      通过axios调用登陆验证接口
+      登陆成功之后保持用户token信息
+      跳转到项目主页（如果用户没有登录，但是直接通过URL访问特定页面，需要重新导航到登陆页面）
+
+    token的作用：
+      登陆页面输入用户名和密码进行登录
+      服务器验证通过之后生成该用户的token并返回
+      客户端存储该token
+      后续所有的请求都携带该token发送请求
+      服务器端验证token是否通过
+
+    路由导航守卫：
+    // 挂载路由导航守卫
+    router.beforeEach((to, from, next) => {
+      // to   将要访问的路径
+      // from 代表从按个路径跳转而来
+      // next 是一个函数, 表示放行
+      // next() 放行  
+      // next('/login') 强行跳转
+      if (to.path === '/login') {
+        return next()
+      }
+      // 获取token
+      const tokenStr = window.sessionStorage.getItem('token')
+      if (!tokenStr) {
+        return next('/login')
+      }
+      next()
+    })
+
+    登陆表单预验证：
+      根据表单验证规则在发送登陆请求前进行预验证
+      如果验证失败，直接退出后续代码的执行
+      验证通过后发送登录请求
+用户管理
+
+权限管理
+
+商品管理
+
+订单管理
+
+数据统计
